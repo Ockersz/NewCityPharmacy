@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="286ac9c9-a6f4-4fed-ba31-0c6c5dbf51fe">
+	<property name="ireport.zoom" value="1.2100000000000029"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="97"/>
+	<parameter name="fromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="toDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT product.product_id,product.generic,product.dosage,product.unit_price,SUM(order_has_products.quantity) , SUM(order_has_products.quantity * product.unit_price) AS income
+FROM product
+JOIN order_has_products ON product.product_id = order_has_products.pid JOIN orders ON orders.order_id = order_has_products.oid
+WHERE orders.date BETWEEN $P{fromDate} AND  $P{toDate}
+GROUP BY product.product_id]]>
+	</queryString>
+	<field name="product_id" class="java.lang.String">
+		<fieldDescription><![CDATA[contains product id and varient code]]></fieldDescription>
+	</field>
+	<field name="generic" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dosage" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="unit_price" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SUM(order_has_products.quantity)" class="java.math.BigDecimal"/>
+	<field name="income" class="java.math.BigDecimal"/>
+	<variable name="income_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{income}]]></variableExpression>
+	</variable>
+	<variable name="SUM(order_has_products.quantity)_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(order_has_products.quantity)}]]></variableExpression>
+	</variable>
+	<variable name="income_2" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{income}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="153" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="555" height="152" uuid="de922f70-ad0d-4056-accd-d00361c31e3b"/>
+				<imageExpression><![CDATA["D:\\NIBM\\EAD\\Projects\\BetaTesting\\src\\View\\Images\\Rectangle 2.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="139" y="98" width="278" height="36" forecolor="#FFFFFF" uuid="80f453a8-ee69-4d80-a90a-48897af980ea"/>
+				<textElement>
+					<font fontName="Times New Roman" size="22"/>
+				</textElement>
+				<text><![CDATA[MONTHLY SALES REPORT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="105" y="10" width="345" height="42" forecolor="#FFFFFF" uuid="16eebebd-3438-4a8a-8280-6e0ba80e15ac"/>
+				<textElement>
+					<font fontName="Times New Roman" size="30"/>
+				</textElement>
+				<text><![CDATA[NEW CITY PHARMACY]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="20" width="100" height="29" uuid="c1ad9fd1-88e5-4c5e-9d9c-01d36e993f17"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Start Date :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="20" width="86" height="29" uuid="6f766f45-d1f2-4d95-b8b6-aedeee0878d8"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[End Date :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="107" y="20" width="122" height="29" uuid="2c7e403d-9a95-463e-ba48-b762568570ca"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fromDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="403" y="20" width="123" height="29" uuid="002c34cd-2b9e-480c-a28d-edf8677180c3"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{toDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="11" width="69" height="20" uuid="17b4b38b-4997-4b83-a35c-1efe69093cf9"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Product ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="88" y="11" width="119" height="20" uuid="55bf1315-c284-4b3e-8d55-6144d7ac9492"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Generic Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="11" width="68" height="20" uuid="f4c64908-8c2c-4e93-97b4-7a841dac396d"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Dosage]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="11" width="65" height="40" uuid="48c6dc52-73cc-48f1-b008-efdb80b4df8a"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Unit Price(LKR)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="403" y="11" width="48" height="20" uuid="8798b323-47bb-4ec1-b915-a0129cade3af"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="11" width="75" height="40" uuid="b8fc1a09-cae3-44ec-b44d-bea1df9e83cb"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total Income (LKR)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="11" width="69" height="20" uuid="ee8c3d0b-8e08-4a7b-a8b9-7bcf9c1db8b6"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{product_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="88" y="11" width="119" height="20" uuid="e772c781-5245-4a96-95fe-789af90c4b8b"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{generic}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="11" width="68" height="20" uuid="549bf686-ca38-4d1e-be14-2c0c57121e75"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dosage}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="317" y="11" width="65" height="20" uuid="4b08dbf0-1212-439f-91a3-cca06b5559f7"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="403" y="11" width="48" height="20" uuid="54660cc3-a1e4-416f-b766-ec3d01fd7632"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM(order_has_products.quantity)}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="480" y="11" width="75" height="20" uuid="276fe958-3234-4eb4-aa29-0477e82d17f9"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{income}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="229" y="0" width="153" height="38" uuid="264e1e90-6407-4012-90f0-f387be33d824"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Total Income(LKR) :]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="403" y="0" width="152" height="38" uuid="cb36bc90-8490-473f-b1cc-ed1c1eff873d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{income_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="17" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7232dd86-b49c-4b8f-9d3a-38293ea2e576">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="CheckStock">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stock_status}.equals("in stock")]]></conditionExpression>
+			<style backcolor="#00FF00"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stock_status}.equals("low stock")]]></conditionExpression>
+			<style backcolor="#FFFF66"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stock_status}.equals("critically low")]]></conditionExpression>
+			<style backcolor="#FF9966"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stock_status}.equals("out of stock")]]></conditionExpression>
+			<style backcolor="#FF6666"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+  product.product_id, 
+  product.generic, 
+  product.dosage, 
+  CASE 
+    WHEN avail_quantity > 20 THEN 'in stock'
+    WHEN avail_quantity BETWEEN 10 AND 19 THEN 'low stock'
+    WHEN avail_quantity BETWEEN 1 AND 9 THEN 'critically low'
+    ELSE 'out of stock'
+  END AS stock_status,
+  product.avail_quantity,
+  SUM(CASE WHEN exp_date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 MONTH) THEN product.avail_quantity ELSE 0 END) AS expiring_quantity,
+  SUM(CASE WHEN exp_date < NOW() THEN product.avail_quantity ELSE 0 END) AS expired_quantity,
+  product.unit_price,
+  SUM(CASE WHEN exp_date < NOW() THEN product.avail_quantity * product.unit_price ELSE 0 END) AS total_loss
+FROM 
+  product
+GROUP BY 
+  product.product_id, 
+  product.generic, 
+  product.dosage, 
+  product.avail_quantity, 
+  stock_status, 
+  product.unit_price]]>
+	</queryString>
+	<field name="product_id" class="java.lang.String">
+		<fieldDescription><![CDATA[contains product id and varient code]]></fieldDescription>
+	</field>
+	<field name="generic" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dosage" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="stock_status" class="java.lang.String"/>
+	<field name="avail_quantity" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="expiring_quantity" class="java.math.BigDecimal"/>
+	<field name="expired_quantity" class="java.math.BigDecimal"/>
+	<field name="unit_price" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_loss" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="113" splitType="Stretch">
+			<image>
+				<reportElement x="2" y="0" width="800" height="113" uuid="209d3840-f80c-481f-971e-edb4fba7a1a4"/>
+				<imageExpression><![CDATA["D:\\NIBM\\EAD\\Projects\\BetaTesting\\src\\View\\Images\\1674384916074.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="155" y="74" width="546" height="39" forecolor="#FFFFFF" uuid="0d7499cb-a801-4077-9f99-c29f5a9fa630"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="24"/>
+				</textElement>
+				<text><![CDATA[OVERALL STOCK REPORT]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="6" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="16" width="71" height="20" uuid="c1f68018-c67a-4183-b7a7-c1e4a1aa9721"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Product ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="16" width="100" height="20" uuid="5f96435f-bcf5-45ed-ad84-bc4cdba6355c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Generic]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="16" width="71" height="20" uuid="3570f430-7d28-40c2-98c0-299dae42c363"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Dosage]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="16" width="82" height="20" uuid="17dc6289-e9a8-4f49-846e-4faa76b7cb56"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Stock Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="16" width="59" height="33" uuid="b9d5009c-0ca9-4237-a95a-e746f607b64d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Quantity Available]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="447" y="16" width="70" height="33" uuid="0eb6c904-da13-4db5-93f4-80ef696baa69"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Quantity Expiring]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="534" y="16" width="70" height="33" uuid="fa73b435-cbd6-4f4f-91c0-02f28cadbf54"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Quantity Expired]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="620" y="16" width="78" height="20" uuid="3f3ee055-5918-4fd0-8c59-a48bae86281d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Unit Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="713" y="16" width="89" height="20" forecolor="#000000" uuid="57a30408-b72a-494c-8bd5-0effe69e5e6a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total Loss]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="6" width="71" height="20" uuid="6f9db9d4-9bbf-4b2e-b3f8-d742bf94d1d6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{product_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="6" width="100" height="20" uuid="721aac0a-4337-427e-aa96-1337551b30a8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{generic}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="191" y="6" width="71" height="20" uuid="c2cb8348-2ea6-4791-ba8a-b9daeae521e6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dosage}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="CheckStock" mode="Opaque" x="277" y="6" width="82" height="20" uuid="d9d2def2-a254-4d21-a284-6623cc38511c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stock_status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="375" y="6" width="59" height="20" uuid="8040bd8f-7f8e-4352-9af4-333a18734c8c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{avail_quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="447" y="6" width="70" height="20" uuid="06868537-10f4-4d12-a39b-95ac0b20bceb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{expiring_quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="534" y="6" width="70" height="20" uuid="97ad5f98-2f10-4603-8832-b277d84ca7e0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{expired_quantity}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="620" y="6" width="78" height="20" uuid="d80c9ec1-ba35-4a0d-9c22-021b716fa0f0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="713" y="6" width="89" height="20" uuid="15077605-fc63-4aec-b9af-135494a664f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_loss}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="10" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="12" splitType="Stretch"/>
+	</summary>
+</jasperReport>

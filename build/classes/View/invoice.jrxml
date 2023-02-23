@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null"  pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5ae86ce4-4c94-4be7-ad63-b5afc80182b5">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="30"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="orderId" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+  Orders.order_id, 
+  Orders.qid, 
+  Orders.date, 
+  Customer.fname,
+  customer.lname,
+  Product.generic, 
+  Product.dosage, 
+  Order_has_products.quantity, 
+  Order_has_products.amount, 
+  (Order_has_products.quantity * Product.unit_price) AS total_amount
+FROM 
+  Orders
+  JOIN Customer ON Orders.cid = Customer.customer_id
+  JOIN Order_has_products ON Orders.order_id = Order_has_products.oid
+  JOIN Product ON Order_has_products.pid = Product.product_id
+where orders.order_id = $P{orderId};]]>
+	</queryString>
+	<field name="order_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="qid" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="lname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="generic" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dosage" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="quantity" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="amount" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_amount" class="java.lang.Long"/>
+	<variable name="order_id_1" class="java.lang.Integer" resetType="Page" calculation="First">
+		<variableExpression><![CDATA[$F{order_id}]]></variableExpression>
+	</variable>
+	<variable name="qid_1" class="java.lang.Integer" resetType="Page" calculation="First">
+		<variableExpression><![CDATA[$F{qid}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="155" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="555" height="154" uuid="30b3d55a-c556-40b2-8b73-25a5995ffb56"/>
+				<imageExpression><![CDATA["D:\\NIBM\\EAD\\Projects\\BetaTesting\\src\\View\\Images\\Rectangle 2.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="139" y="22" width="282" height="44" forecolor="#FFFFFF" uuid="222d67a3-6820-499c-b2ad-b5222bade084"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="26"/>
+				</textElement>
+				<text><![CDATA[NEW CITY PHARMACY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="139" y="119" width="282" height="35" forecolor="#FFFFFF" uuid="4ba7f6d8-77b7-4faa-b4ec-58ad428e5244"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="20"/>
+				</textElement>
+				<text><![CDATA[Order Invoice]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="114" splitType="Stretch">
+			<textField evaluationTime="Page">
+				<reportElement x="113" y="17" width="126" height="25" uuid="b7ca9f5b-af9e-4327-b7b6-2cab57ef3635"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{order_id_1}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Page">
+				<reportElement x="429" y="17" width="126" height="25" uuid="8b5127e3-0bc6-40fc-a1f3-4fc486ecbc4a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{qid_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="88" y="64" width="96" height="25" uuid="27fb158e-ff50-4b9d-b8b4-be62836a9c64"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="64" width="126" height="25" uuid="9b12fe05-8dfc-40f5-b25f-f51d892dc8b0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="17" width="88" height="25" uuid="95f43e22-e54f-4811-b308-f5a58f27cd1f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Order Id :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="64" width="88" height="25" uuid="72efdfb2-cd8b-4e27-9bfd-253280d127f3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Customer :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="341" y="64" width="88" height="25" uuid="0c32afbd-6987-44d8-9c13-4677fa7f7f58"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="341" y="17" width="88" height="25" uuid="4de7064e-45b8-49e5-807e-6a0efe9193c7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Quotation Id :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="197" y="64" width="96" height="25" uuid="810890e3-21bc-4392-9e4e-eefb816863eb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lname}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="11" y="9" width="115" height="25" uuid="4bd9e708-4958-42f3-a5af-05db57e8437e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Generic]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="153" y="9" width="126" height="25" uuid="80a689e3-a67f-4183-812a-71fa1d479dc2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Dosage]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="9" width="94" height="25" uuid="5d958c4d-0e1f-4b04-ac1a-658259b27d7f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="421" y="9" width="126" height="25" uuid="96408ac3-e4f3-443a-ae3b-956b17c2d51f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="38" width="555" height="1" uuid="832f3a4a-3cb3-4c1b-8ef4-1ffe603c9fa0"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="62" splitType="Stretch">
+			<textField>
+				<reportElement x="7" y="22" width="126" height="25" uuid="4fca9227-e470-4a62-968b-b8ba780a4de3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{generic}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="22" width="126" height="25" uuid="18fb12ec-88d2-494a-a82a-7e1239719cf8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dosage}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="309" y="22" width="94" height="25" uuid="685da280-1815-4423-bba9-7f0797250f63"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="421" y="22" width="126" height="25" uuid="bd2c4f67-602b-4f70-9f72-bdd85551d0eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement x="421" y="11" width="126" height="25" uuid="832963b3-2e84-40ff-8918-ddc46b1214bd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="279" y="11" width="142" height="25" uuid="5c6e35c4-a00e-41e0-bd8b-8dece4f21d6d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Total Amount (LKR) :]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
